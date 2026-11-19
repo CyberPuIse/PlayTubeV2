@@ -1,4 +1,4 @@
-name: Build PlayTube from ZIP
+name: Build PlayTube Debug APK from ZIP
 
 on:
   push:
@@ -42,16 +42,10 @@ jobs:
           chmod +x ./gradlew
           ./gradlew assembleDebug --stacktrace
 
-      - name: Build Release APK (unsigned if no signing secrets)
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: ./gradlew assembleRelease --stacktrace
-
-      - name: Upload APK artifacts
+      - name: Upload Debug APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PlayTube-APKs
-          path: |
-            ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
-            ${{ env.PROJECT_DIR }}/app/build/outputs/apk/release/*.apk
+          name: PlayTube-Debug-APK
+          path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
